@@ -13,6 +13,7 @@ public class Protocol : MonoBehaviour
     [SerializeField] private GameObject AreYouSure;
     [SerializeField] private GameObject FinishPanel;
     [SerializeField] private GameObject Title;
+    [SerializeField] private GameObject PauseButton;
     private TMP_Text TitleText;
     [SerializeField] private GameObject Timer;
     private TMP_Text TimerText;
@@ -34,12 +35,14 @@ public class Protocol : MonoBehaviour
         CycleNumberText = CycleNumber.GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Pause()
     {
-
+        Time.timeScale = 0;
     }
-
+    public void Unpause()
+    {
+        Time.timeScale = 1;
+    }
     public void InitiateProtocol()
     {
         if (ProtocolInitiated)
@@ -48,6 +51,8 @@ public class Protocol : MonoBehaviour
         }
         else
         {
+            //Start The Timer
+            PauseButton.SetActive(true);
             ButtonText.text = "Abort Protocol";
             ProtocolInitiated = true;
             CycleNumber.SetActive(true);
@@ -57,13 +62,13 @@ public class Protocol : MonoBehaviour
     private void CoroutineStarter()
     {
         StopAllCoroutines();
-        Init = StartCoroutine(Time());
+        Init = StartCoroutine(StartTimer());
     }
     public void ResetScene()
     {
         SceneManager.LoadScene(0);
     }
-    private IEnumerator Time()
+    private IEnumerator StartTimer()
     {
         var t = 0;
         if (WorkingTime)
@@ -87,7 +92,7 @@ public class Protocol : MonoBehaviour
             TitleText.text = "Rest Time";
         }
         //Play Sound here
-        AudioSource.Play(); 
+        AudioSource.Play();
         while (true)
         {
             t--;
