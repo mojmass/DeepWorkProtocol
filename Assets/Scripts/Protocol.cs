@@ -25,6 +25,7 @@ public class Protocol : MonoBehaviour
     [SerializeField] private int RestTimeSeconds = 120;
     [SerializeField] private int MaxCycle = 5;
     private AudioSource AudioSource;
+    [SerializeField] private GameObject CustomInputs;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +46,10 @@ public class Protocol : MonoBehaviour
     }
     public void InitiateProtocol()
     {
+        WorkTimeSeconds = PlayerPrefsManager.instance.WorkTime;
+        RestTimeSeconds = PlayerPrefsManager.instance.RestTime;
+        MaxCycle = PlayerPrefsManager.instance.MaxCycle;
+        CustomInputs.SetActive(false);
         if (ProtocolInitiated)
         {
             AreYouSure.SetActive(true);
